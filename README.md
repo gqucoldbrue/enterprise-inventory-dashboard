@@ -1,1 +1,1 @@
-# enterprise-inventory-dashboard
+Enterprise ready inventory dashboard for SMEs.
