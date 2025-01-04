@@ -1,101 +1,134 @@
-import Image from "next/image";
+'use client'
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Package, AlertTriangle, TrendingUp, DollarSign } from 'lucide-react';
+import { BarChart } from '@/components/BarChart'; // We'll need to create this
 
-export default function Home() {
+const Dashboard = () => {
+  // Sample data for the stock levels chart
+  const stockData = [
+    { product: 'Product A', current: 65, minimum: 15, predicted: 70 },
+    { product: 'Product B', current: 35, minimum: 10, predicted: 20 },
+    { product: 'Product C', current: 130, minimum: 40, predicted: 150 },
+    { product: 'Product D', current: 85, minimum: 25, predicted: 75 },
+    { product: 'Product E', current: 45, minimum: 20, predicted: 55 },
+  ];
+
+  // Low stock alerts data
+  const lowStockAlerts = [
+    { product: 'Product B', currentStock: 35, reorderPoint: 40, status: 'Reorder Required' },
+    { product: 'Product D', currentStock: 15, reorderPoint: 25, status: 'Reorder Required' },
+    // Add more items as needed
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold mb-2">Inventory Management Dashboard</h1>
+        <p className="text-sm text-muted-foreground">
+          Real-time inventory insights and AI-driven predictions
+        </p>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Total Items
+            </CardTitle>
+            <Package className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">507</div>
+            <p className="text-xs text-muted-foreground">Across 5 categories</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-red-50">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Low Stock Alerts
+            </CardTitle>
+            <AlertTriangle className="h-4 w-4 text-red-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">2</div>
+            <p className="text-xs text-muted-foreground">Items below threshold</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-green-50">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Predicted Demand
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-green-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">+12%</div>
+            <p className="text-xs text-muted-foreground">Next 7 days</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-yellow-50">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Inventory Value
+            </CardTitle>
+            <DollarSign className="h-4 w-4 text-yellow-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$24,500</div>
+            <p className="text-xs text-muted-foreground">Current total</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Stock Levels Chart */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Current Stock Levels</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[300px]">
+            <BarChart data={stockData} />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Low Stock Alerts Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Low Stock Alerts</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left">
+              <thead className="text-xs text-muted-foreground uppercase bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3">Product</th>
+                  <th className="px-6 py-3">Current Stock</th>
+                  <th className="px-6 py-3">Reorder Point</th>
+                  <th className="px-6 py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {lowStockAlerts.map((alert, index) => (
+                  <tr key={index} className="bg-white border-b">
+                    <td className="px-6 py-4">{alert.product}</td>
+                    <td className="px-6 py-4">{alert.currentStock}</td>
+                    <td className="px-6 py-4">{alert.reorderPoint}</td>
+                    <td className="px-6 py-4 text-red-500">{alert.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
-}
+};
+
+export default Dashboard;
